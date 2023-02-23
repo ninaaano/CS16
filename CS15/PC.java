@@ -1,10 +1,10 @@
 package CS15;
 
-public class Pc {
+public class PC {
     private final int pcNumber; // not null
     User user;
 
-    public Pc(int pcNumber) {
+    public PC(int pcNumber) {
         this.pcNumber = pcNumber;
     }
 
