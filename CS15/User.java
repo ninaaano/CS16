@@ -1,12 +1,14 @@
 package CS15;
 
+import java.time.LocalDateTime;
+
 public class User {
     private final long id; // key값 not null
-    private final int startTime; // pc 시작시간 not null
+    private final LocalDateTime startTime; // pc 시작시간 not null
     int endTime; // pc 종료시간
     int pcNumber; // not null
 
-    public User(long id, int startTime) {
+    public User(long id, LocalDateTime startTime) {
         this.id = id;
         this.startTime = startTime;
     }
@@ -16,7 +18,7 @@ public class User {
     }
 
 
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
