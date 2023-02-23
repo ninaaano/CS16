@@ -3,6 +3,7 @@ package CS15;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,14 @@ public class InternetCafe {
 
     // 유저 id를 받아서 stop
     public int stopUsePc(long userId){
-        
-        return 0;
+        // 유저 아이디가 있는지 확인
+        Optional<PC> optionalTargetPc = pcList.stream().filter(pc -> pc.getUser().getId() == userId).findFirst();
+        if(optionalTargetPc.isEmpty()) {
+            return 0; // 없으면 0 반환
+        }
+        PC targetPc = optionalTargetPc.get();
+        targetPc.setUser(null); // null 일때 사용중이던 pc를 사용할 수 있다.
+        return targetPc.getPcNumber();
     }
 
 
