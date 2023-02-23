@@ -20,4 +20,8 @@ public class PC {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(pcNumber);
+    }
 }

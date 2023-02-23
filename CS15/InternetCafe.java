@@ -11,18 +11,19 @@ public class InternetCafe {
     public final Random random = new Random();
     List<PC> pcList = new ArrayList<>();
     int size = 16; // pc의개수
+    PcRepository pcRepository = new PcRepository();
 
     public InternetCafe() {
         for(int i=1; i<=size; i++){
             PC pc = new PC(i);
-            pcList.add(pc);
+            pcRepository.add(pc);
         }
     }
 
     // user를 받고 메소드에 더하면 pc 번호를 반환한다
     public int newUser(long userId){
-        // 자리 확인 // null이면 자리가 있다는 뜻
-        List<PC> canUsePc = pcList.stream().filter(pc -> pc.getUser() == null).collect(Collectors.toList());
+        //        // 자리 확인 // null이면 자리가 있다는 뜻
+        List<PC> canUsePc = getCanUsePc();
         if (canUsePc.isEmpty()){
             return 0; // 0을 가지고 에러를 던지던가 할 수 있다
         }
@@ -33,10 +34,15 @@ public class InternetCafe {
         return newPc.getPcNumber();
     }
 
+    private List<PC> getCanUsePc() {
+        List<PC> canUsePc = pcList.stream().filter(pc -> pc.getUser() == null).collect(Collectors.toList());
+        return canUsePc;
+    }
+
     // 유저 id를 받아서 stop
     public int stopUsePc(long userId){
         // 유저 아이디가 있는지 확인
-        Optional<PC> optionalTargetPc = pcList.stream().filter(pc -> pc.getUser().getId() == userId).findFirst();
+        Optional<PC> optionalTargetPc = pcList.stream().filter(pc -> pc.getUser() != null && pc.getUser().getId() == userId).findFirst();
         if(optionalTargetPc.isEmpty()) {
             return 0; // 없으면 0 반환
         }
@@ -45,5 +51,25 @@ public class InternetCafe {
         return targetPc.getPcNumber();
     }
 
+    public void printResult() {
+        System.out.println(getCanUsePc());
+    }
 
+    public long createNewUserId() {
+        int newUserId = getNewUserId();
+        while(isExistUserId(newUserId)){
+            newUserId = getNewUserId();
+        }
+        return newUserId;
+    }
+
+    private int getNewUserId() {
+        int newUserId;
+        newUserId = random.nextInt(size + 1);
+        return newUserId;
+    }
+
+    private boolean isExistUserId(int newUserId) {
+        return pcList.stream().anyMatch(pc -> pc.getUser() != null && pc.getUser().getId()==newUserId);
+    }
 }
