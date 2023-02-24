@@ -1,16 +1,17 @@
 package CS15;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class User {
     private final long id; // key값 not null
-    private final LocalDateTime startTime; // pc 시작시간 not null
+    private final String startTime; // pc 시작시간 not null
     int endTime; // pc 종료시간
     int pcNumber; // not null
 
     public User(long id, LocalDateTime startTime) {
         this.id = id;
-        this.startTime = startTime;
+        this.startTime = startTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 
     public long getId() {
@@ -18,7 +19,7 @@ public class User {
     }
 
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
